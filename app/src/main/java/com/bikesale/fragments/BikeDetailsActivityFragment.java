@@ -1,0 +1,29 @@
+package com.bikesale.fragments;
+
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.bikesale.R;
+
+/**
+ * A placeholder fragment containing a simple view.
+ */
+public class BikeDetailsActivityFragment extends Fragment
+{
+
+    public BikeDetailsActivityFragment()
+    {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        System.out.print(savedInstanceState);
+        return inflater.inflate(R.layout.fragment_bike_details, container, false);
+    }
+}

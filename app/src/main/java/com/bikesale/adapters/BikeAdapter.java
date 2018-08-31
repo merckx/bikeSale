@@ -25,7 +25,10 @@ public class BikeAdapter extends FirebaseRecyclerAdapter<Bike, BikeHolder>
 
     public BikeAdapter()
     {
-        super(Bike.class, R.layout.bike_item, BikeHolder.class, FirebaseDatabase.getInstance().getReference("bikes"));
+        super(Bike.class,
+                R.layout.bike_item,
+                BikeHolder.class,
+                FirebaseDatabase.getInstance().getReference("bikes"));
     }
 
 //    @Override

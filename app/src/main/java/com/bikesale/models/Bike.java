@@ -18,9 +18,10 @@ public class Bike implements Parcelable
     {
         id = UUID.randomUUID().toString();
         parts = new ArrayList<>();
+        priceBought = 0d;
     }
 
-    public Bike(String name, double price)
+    public Bike(final String name, final double price)
     {
         id = UUID.randomUUID().toString();
         parts = new ArrayList<>();
@@ -32,14 +33,8 @@ public class Bike implements Parcelable
     {
         id = in.readString();
         name = in.readString();
+        priceBought = in.readDouble();
         parts = in.createTypedArrayList(BikePart.CREATOR);
-        if (in.readByte() == 0)
-        {
-            priceBought = null;
-        } else
-        {
-            priceBought = in.readDouble();
-        }
     }
 
     public static final Creator<Bike> CREATOR = new Creator<Bike>()
@@ -67,8 +62,8 @@ public class Bike implements Parcelable
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(id);
-        dest.writeTypedList(parts);
         dest.writeString(name);
         dest.writeDouble(priceBought);
+        dest.writeTypedList(parts);
     }
 }

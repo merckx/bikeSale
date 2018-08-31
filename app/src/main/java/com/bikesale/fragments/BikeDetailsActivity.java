@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bikesale.R;
+import com.bikesale.dialogs.AddBikePartDialog;
 
 public class BikeDetailsActivity extends AppCompatActivity
 {
@@ -17,19 +18,15 @@ public class BikeDetailsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = findViewById(R.id.add_part);
+        fab.setOnClickListener(view ->
+        {
+            AddBikePartDialog dialog = new AddBikePartDialog();
+            dialog.show(getSupportFragmentManager(), "addpartdialog");
+        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

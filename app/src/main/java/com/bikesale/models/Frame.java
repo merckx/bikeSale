@@ -3,7 +3,7 @@ package com.bikesale.models;
 import org.jetbrains.annotations.Nullable;
 
 public class Frame extends BikePart {
-    public Frame(@Nullable String name) {
-        super(name);
+    public Frame() {
+        super(BikePartType.FRAME);
     }
 }

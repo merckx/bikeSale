@@ -5,19 +5,27 @@ import android.os.Parcelable;
 
 public class BikePart implements Parcelable
 {
+    public int type;
     public String name;
     public String model;
     public double minSellPrice;
     public double sellPrice;
     public double priceSold;
 
-    public BikePart(String name)
+    public BikePart(int type)
+    {
+        this.type = type;
+    }
+
+    public BikePart(String name, int type)
     {
         this.name = name;
+        this.type = type;
     }
 
     protected BikePart(Parcel in)
     {
+        type = in.readInt();
         name = in.readString();
         model = in.readString();
         minSellPrice = in.readDouble();
@@ -49,6 +57,7 @@ public class BikePart implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeInt(type);
         dest.writeString(name);
         dest.writeString(model);
         dest.writeDouble(minSellPrice);

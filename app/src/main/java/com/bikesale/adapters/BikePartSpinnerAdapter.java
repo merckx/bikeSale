@@ -16,12 +16,12 @@ public class BikePartSpinnerAdapter extends BaseAdapter {
 
     private List<BikePart> data;
     private LayoutInflater inflater;
-    private Context context;
+    //private Context context;
 
     public BikePartSpinnerAdapter(Context context, List<BikePart> parts) {
         super();
         this.data = parts;
-        this.context = context;
+      //  this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -48,10 +48,4 @@ public class BikePartSpinnerAdapter extends BaseAdapter {
         tv.setText(BikePartType.getName(data.get(position).type));
         return view;
     }
-
-//    @Override
-//    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//
-//        return super.getDropDownView(position, convertView, parent);
-//    }
 }

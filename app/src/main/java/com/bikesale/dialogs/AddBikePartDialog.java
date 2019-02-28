@@ -35,17 +35,17 @@ public class AddBikePartDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_add_part_view, container, false);
-        Spinner spinner = v.findViewById(R.id.choose_part_spinner);
+        View dialog = inflater.inflate(R.layout.dialog_add_part_view, container, false);
+        Spinner spinner = dialog.findViewById(R.id.choose_part_spinner);
         BikePartSpinnerAdapter dataAdapter = new BikePartSpinnerAdapter(this.getActivity(),
                 BikePartsProvider.getPartsList());
         spinner.setAdapter(dataAdapter);
 
-        EditText name = v.findViewById(R.id.part_name);
-        EditText minSellPrice = v.findViewById(R.id.part_min_price);
-        EditText sellPrice = v.findViewById(R.id.part_price);
+        EditText name = dialog.findViewById(R.id.part_name);
+        EditText minSellPrice = dialog.findViewById(R.id.part_min_price);
+        EditText sellPrice = dialog.findViewById(R.id.part_price);
 
-        Button btnAdd = v.findViewById(R.id.add_part);
+        Button btnAdd = dialog.findViewById(R.id.add_part);
         btnAdd.setOnClickListener(l -> {
             int selectedPartType = dataAdapter.getItem(spinner.getSelectedItemPosition()).type;
             String sellPriceValue = (sellPrice.getText() != null && sellPrice.getText().length() > 0) ? sellPrice.getText().toString() : "0";
@@ -57,7 +57,7 @@ public class AddBikePartDialog extends DialogFragment {
             EventBus.getDefault().post(new AddNewBikePartEvent(part));
             dismiss();
         });
-        return v;
+        return dialog;
     }
 
 }

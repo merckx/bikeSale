@@ -2,6 +2,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.bikesale.fragments.BikeDetailsActivity">
+
+    <item
+        android:id="@+id/save_bike"
+        android:orderInCategory="100"
+        android:title="save"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

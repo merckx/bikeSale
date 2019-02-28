@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class Bike implements Parcelable
 {
+    public static String TABLE_NAME = "bikes";
     public String id;
     public String name;
     public List<BikePart> parts;

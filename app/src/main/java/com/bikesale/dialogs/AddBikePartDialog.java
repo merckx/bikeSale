@@ -48,10 +48,12 @@ public class AddBikePartDialog extends DialogFragment {
         Button btnAdd = v.findViewById(R.id.add_part);
         btnAdd.setOnClickListener(l -> {
             int selectedPartType = dataAdapter.getItem(spinner.getSelectedItemPosition()).type;
+            String sellPriceValue = (sellPrice.getText() != null && sellPrice.getText().length() > 0) ? sellPrice.getText().toString() : "0";
+
             BikePart part = BikePartsProvider.newBikePart(selectedPartType,
                     name.getText().toString(),
                     Double.parseDouble(minSellPrice.getText().toString()),
-                    Double.parseDouble(sellPrice.getText().toString()));
+                    Double.parseDouble(sellPriceValue));
             EventBus.getDefault().post(new AddNewBikePartEvent(part));
             dismiss();
         });

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bikesale.R;
+import com.bikesale.common.SemicolonWrapper;
 import com.bikesale.models.BikePart;
 
 public class BikePartViewHolder extends RecyclerView.ViewHolder
@@ -21,7 +22,10 @@ public class BikePartViewHolder extends RecyclerView.ViewHolder
 
     public void bind(BikePart part)
     {
-        partName.setText(part.name);
+        partName.setText(new SemicolonWrapper(part.name).getText());
         partModel.setText(part.model);
     }
+
+
+
 }

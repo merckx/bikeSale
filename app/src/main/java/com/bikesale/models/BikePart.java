@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class BikePart implements Parcelable
 {
+    public static String TABLE_NAME = "parts";
     public int type;
     public String name;
     public String model;
@@ -12,6 +13,10 @@ public class BikePart implements Parcelable
     public double sellPrice;
     public double priceSold;
 
+    public BikePart()
+    {
+
+    }
     public BikePart(int type)
     {
         this.type = type;

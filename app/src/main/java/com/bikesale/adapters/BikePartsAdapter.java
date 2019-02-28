@@ -13,7 +13,7 @@ public class BikePartsAdapter extends FirebaseRecyclerAdapter<BikePart, BikePart
         super(BikePart.class,
                 R.layout.bike_part_item,
                 BikePartViewHolder.class,
-                FirebaseDatabase.getInstance().getReference("parts").child(bike.id));
+                FirebaseDatabase.getInstance().getReference(BikePart.TABLE_NAME).child(bike.id));
     }
 
 

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         mFirebaseAdapter = BikeAdapter()
         bikesList.adapter = mFirebaseAdapter
-        bikesList.layoutManager = LinearLayoutManager(this)
+        bikesList.layoutManager = LinearLayoutManager(this.applicationContext)
 
     }
 

@@ -10,7 +10,7 @@ public class BikeDao
     {
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("bikes")
+                .child(Bike.TABLE_NAME)
                 .child(bike.id)
                 .setValue(bike);
     }
@@ -19,7 +19,7 @@ public class BikeDao
     {
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("parts")
+                .child(BikePart.TABLE_NAME)
                 .child(bike.id)
                 .child(part.name)
                 .setValue(part);

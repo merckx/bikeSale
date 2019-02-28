@@ -54,10 +54,10 @@ public class BikePartsProvider {
         return parts;
     }
 
-    public static BikePart newBikePart(int type,
-                                       String name,
-                                       double minSellPrice,
-                                       double sellPrice)
+    public static BikePart newBikePart(final int type,
+                                       final String model,
+                                       final double minSellPrice,
+                                       final double sellPrice)
     {
         BikePart part = null;
         switch (type) {
@@ -106,7 +106,8 @@ public class BikePartsProvider {
         {
             part.sellPrice = sellPrice;
             part.minSellPrice = minSellPrice;
-            part.name = name;
+            part.name = BikePartType.getName(type);
+            part.model = model;
         }
 
         return part;

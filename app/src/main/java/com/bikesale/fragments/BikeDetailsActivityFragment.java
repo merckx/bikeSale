@@ -39,8 +39,8 @@ public class BikeDetailsActivityFragment extends Fragment
 {
     private Bike bike;
     private BikePartsAdapter partsAdapter;
-    private BikeViewModel bikeViewModel;
-    private static final String TAG = "BIKEDETAILSACTIVITY";
+//    private BikeViewModel bikeViewModel;
+    private static final String TAG = "BikeDetailsFragment";
     private EditText bikeName;
     private EditText bikePrice;
     public BikeDetailsActivityFragment()
@@ -52,8 +52,8 @@ public class BikeDetailsActivityFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         this.bike = getActivity().getIntent().getParcelableExtra("BIKE");
-        bikeViewModel = ViewModelProviders.of(this).get(BikeViewModel.class);
-        bikeViewModel.setBike(bike);
+//        bikeViewModel = ViewModelProviders.of(this).get(BikeViewModel.class);
+//        bikeViewModel.setBike(bike);
     }
 
     @Override
@@ -64,12 +64,12 @@ public class BikeDetailsActivityFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_bike_details, container, false);
 
         bikeName = view.findViewById(R.id.bike_name);
-//        bikeName.setText(this.bike.name);
+        bikeName.setText(this.bike.name);
         bikePrice = view.findViewById(R.id.bike_price);
-        bikeViewModel.bikeLiveData.observe(this, bike1 -> {
-            bikePrice.setText(bike1.priceBought.toString());
-        });
-//        bikePrice.setText(String.valueOf(this.bike.priceBought));
+//        bikeViewModel.bikeLiveData.observe(this, bike1 -> {
+//            bikePrice.setText(bike1.priceBought.toString());
+//        });
+        bikePrice.setText(String.valueOf(this.bike.priceBought));
         partsAdapter = new BikePartsAdapter(bike);
         RecyclerView partsList = view.findViewById(R.id.parts_list);
         partsList.setAdapter(partsAdapter);
@@ -109,6 +109,7 @@ public class BikeDetailsActivityFragment extends Fragment
         //todo check if it is not empty string
         this.bike.priceBought = Double.parseDouble(bikePrice.getText().toString());
         BikeDao.updateBike(this.bike);
+        getActivity().finish();
     }
 
     ChildEventListener childEventListener = new ChildEventListener() {

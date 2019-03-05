@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bikesale.R;
 import com.bikesale.common.SemicolonWrapper;
 import com.bikesale.events.DeleteBikePartEvent;
+import com.bikesale.events.SellBikePartEvent;
 import com.bikesale.models.BikePart;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,6 +20,8 @@ public class BikePartViewHolder extends RecyclerView.ViewHolder {
     private TextView priceToSell;
     private TextView priceSold;
     private ImageButton deletePartBtn;
+    private ImageButton sellPartBtn;
+
 
     public BikePartViewHolder(View itemView) {
         super(itemView);
@@ -28,6 +31,7 @@ public class BikePartViewHolder extends RecyclerView.ViewHolder {
         priceToSell = itemView.findViewById(R.id.price_to_sell);
         priceSold = itemView.findViewById(R.id.price_sold);
         deletePartBtn = itemView.findViewById(R.id.delete_part);
+        sellPartBtn = itemView.findViewById(R.id.sell_part);
     }
 
     public void bind(BikePart part) {
@@ -37,7 +41,9 @@ public class BikePartViewHolder extends RecyclerView.ViewHolder {
         priceToSell.setText("Sell price:" + part.sellPrice);
         priceSold.setText("Sold:" + part.priceSold);
         deletePartBtn.setOnClickListener(l -> new DeleteBikePartEvent(part).execute());
-
+        sellPartBtn.setOnClickListener(l -> {
+            new SellBikePartEvent(part).execute();
+        });
     }
 
 }

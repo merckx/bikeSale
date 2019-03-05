@@ -13,6 +13,7 @@ import android.view.View;
 import com.bikesale.R;
 import com.bikesale.dialogs.AddBikePartDialog;
 import com.bikesale.events.SaveBikeEvent;
+import com.bikesale.models.Bike;
 
 public class BikeDetailsActivity extends AppCompatActivity
 {
@@ -25,11 +26,11 @@ public class BikeDetailsActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bike bike = getIntent().getParcelableExtra(Bike.PARCELABLE_NAME);
         FloatingActionButton fab = findViewById(R.id.add_part);
         fab.setOnClickListener(view ->
         {
-            AddBikePartDialog dialog = new AddBikePartDialog();
-            dialog.show(getSupportFragmentManager(), "addpartdialog");
+            AddBikePartDialog.show(getSupportFragmentManager(), bike);
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

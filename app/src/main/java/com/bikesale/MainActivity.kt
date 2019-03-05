@@ -160,13 +160,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onStop();
     }
 
-    public val BIKE_MESSAGE: String = "BIKE";
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: OpenBikeDetailsEvent) {
 //        Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, BikeDetailsActivity::class.java).apply {
-            putExtra(BIKE_MESSAGE, event.bike);
+            putExtra(Bike.PARCELABLE_NAME, event.bike);
         }
         startActivity(intent)
     }

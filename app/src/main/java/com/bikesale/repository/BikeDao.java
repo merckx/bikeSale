@@ -34,16 +34,16 @@ public class BikeDao
                 .setValue(bike);
     }
 
-
-    public static void addBikePart(Bike bike, BikePart part)
-    {
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child(BikePart.TABLE_NAME)
-                .child(bike.id)
-                .child(part.name)
-                .setValue(part);
-    }
+//
+//    public static void addBikePart(Bike bike, BikePart part)
+//    {
+//        FirebaseDatabase.getInstance()
+//                .getReference()
+//                .child(BikePart.TABLE_NAME)
+//                .child(bike.id)
+//                .child(part.name)
+//                .setValue(part);
+//    }
 
 
     public static void deleteAllPartsForBike(Bike bike)
@@ -65,7 +65,7 @@ public class BikeDao
                 .removeValue();
     }
 
-    public static void updateBikePart(Bike bike, BikePart part)
+    public static void saveBikePart(Bike bike, BikePart part)
     {
         FirebaseDatabase.getInstance()
                 .getReference()

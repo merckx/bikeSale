@@ -1,10 +1,9 @@
 package com.bikesale.dialogs;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,27 @@ import android.widget.Spinner;
 
 import com.bikesale.R;
 import com.bikesale.adapters.BikePartSpinnerAdapter;
-import com.bikesale.events.AddNewBikePartEvent;
+import com.bikesale.events.SaveBikePartEvent;
+import com.bikesale.models.Bike;
 import com.bikesale.models.BikePart;
 import com.bikesale.repository.BikePartsProvider;
 
 import org.greenrobot.eventbus.EventBus;
 
 public class AddBikePartDialog extends DialogFragment {
+    private Bike bike;
+
+    private void setBike(Bike bike) {
+        this.bike = bike;
+    }
+
+    public static void show(FragmentManager fragmentManager, Bike bike)
+    {
+        AddBikePartDialog dialog = new AddBikePartDialog();
+        dialog.setBike(bike);
+        dialog.show(fragmentManager, "add_part_dialog");
+    }
+
 
     @Override
     public void onStart() {
@@ -54,7 +67,7 @@ public class AddBikePartDialog extends DialogFragment {
                     name.getText().toString(),
                     Double.parseDouble(minSellPrice.getText().toString()),
                     Double.parseDouble(sellPriceValue));
-            EventBus.getDefault().post(new AddNewBikePartEvent(part));
+            EventBus.getDefault().post(new SaveBikePartEvent(this.bike, part));
             dismiss();
         });
         return dialog;

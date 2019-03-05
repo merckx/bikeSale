@@ -1,7 +1,6 @@
 package com.bikesale.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,20 +8,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bikesale.R;
 import com.bikesale.adapters.BikePartsAdapter;
-import com.bikesale.events.AddNewBikePartEvent;
+import com.bikesale.adapters.OnPartsDataChanged;
+import com.bikesale.dialogs.SellBikePartDialog;
 import com.bikesale.events.DeleteBikePartEvent;
 import com.bikesale.events.SaveBikeEvent;
+import com.bikesale.events.SaveBikePartEvent;
+import com.bikesale.events.SellBikePartEvent;
 import com.bikesale.models.Bike;
-import com.bikesale.models.BikeViewModel;
 import com.bikesale.repository.BikeDao;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,48 +34,70 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class BikeDetailsActivityFragment extends Fragment
-{
+public class BikeDetailsActivityFragment extends Fragment {
     private Bike bike;
     private BikePartsAdapter partsAdapter;
-//    private BikeViewModel bikeViewModel;
+    //    private BikeViewModel bikeViewModel;
     private static final String TAG = "BikeDetailsFragment";
     private EditText bikeName;
     private EditText bikePrice;
-    public BikeDetailsActivityFragment()
-    {
+    private TextView totalSold;
+    private TextView minCalculatedProfit;
+    private TextView calculatedProfit;
+    private TextView realProfit;
+
+    public BikeDetailsActivityFragment() {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.bike = getActivity().getIntent().getParcelableExtra("BIKE");
-//        bikeViewModel = ViewModelProviders.of(this).get(BikeViewModel.class);
-//        bikeViewModel.setBike(bike);
+        this.bike = getActivity().getIntent().getParcelableExtra(Bike.PARCELABLE_NAME);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
-                             final Bundle savedInstanceState)
-    {
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bike_details, container, false);
 
         bikeName = view.findViewById(R.id.bike_name);
         bikeName.setText(this.bike.name);
         bikePrice = view.findViewById(R.id.bike_price);
-//        bikeViewModel.bikeLiveData.observe(this, bike1 -> {
-//            bikePrice.setText(bike1.priceBought.toString());
-//        });
+        totalSold = view.findViewById(R.id.total_sold);
+        minCalculatedProfit = view.findViewById(R.id.min_calculated_profit);
+        calculatedProfit = view.findViewById(R.id.calculated_profit);
+        realProfit = view.findViewById(R.id.real_profit);
+
         bikePrice.setText(String.valueOf(this.bike.priceBought));
         partsAdapter = new BikePartsAdapter(bike);
         RecyclerView partsList = view.findViewById(R.id.parts_list);
+
         partsList.setAdapter(partsAdapter);
         partsList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-//        FirebaseDatabase.getInstance()
-//                .getReference().addChildEventListener(childEventListener);
+        OnPartsDataChanged listener = createPartsChangedListener();
+        partsAdapter.setOnPartsDataChangedListener(listener);
+
         return view;
+    }
+
+    private OnPartsDataChanged createPartsChangedListener()
+    {
+        return new OnPartsDataChanged() {
+            @Override
+            public void totalSoldChanged(double sold) {
+                totalSold.setText("Sold: " + String.valueOf(sold));
+                double realProfitSum = sold - bike.priceBought;
+                realProfit.setText("Real Profit: " + realProfitSum);
+                //realProfit.setBackgroundColor(realProfitSum > 0 ? Color.GREEN : Color.RED);
+            }
+
+            @Override
+            public void totalCalculatedProfitsChanged(double totalCalculated, double minTotalCalculated) {
+                calculatedProfit.setText("Calculated Profit: " + String.valueOf(totalCalculated));
+                minCalculatedProfit.setText("Min Profit: " + String.valueOf(minTotalCalculated));
+            }
+        };
     }
 
     @Override
@@ -91,15 +112,17 @@ public class BikeDetailsActivityFragment extends Fragment
         super.onStop();
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(AddNewBikePartEvent event) {
-        BikeDao.addBikePart(this.bike, event.getPart());
+    public void onMessageEvent(SaveBikePartEvent event) {
+        BikeDao.saveBikePart(event.getBike(), event.getPart());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DeleteBikePartEvent event) {
         BikeDao.deleteBikePart(this.bike, event.getPart());
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SaveBikeEvent event) {
@@ -111,6 +134,12 @@ public class BikeDetailsActivityFragment extends Fragment
         BikeDao.updateBike(this.bike);
         getActivity().finish();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SellBikePartEvent event) {
+        SellBikePartDialog.Companion.show(getFragmentManager(), event.getPart(), this.bike);
+    }
+
 
     ChildEventListener childEventListener = new ChildEventListener() {
         @Override
